@@ -1,0 +1,16 @@
+{
+    "data": [
+        {
+            "email": "cedric@msn.com",
+            "password": "biscotte",
+            "firstName": "Cedric",
+            "lastName": "Kiss"
+        },
+        {
+            "email": "maxime@msn.com",
+            "password": "gaode24",
+            "firstName": "Maxime",
+            "lastName": "Gaode"
+        }
+    ]
+}

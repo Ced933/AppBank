@@ -1,0 +1,102 @@
+.hero {
+    background-image: url('../../../public/bank-tree.jpeg');
+    background-position: 0 -170px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 400px;
+    position: relative;
+
+
+    display: flex;
+    align-items: center;
+
+
+    @media (max-width: 920px) {
+        height: 300px;
+        background-position: 0 0;
+    }
+
+    .hero-content {
+        position: absolute;
+
+        right: 5%;
+        width: 300px;
+        background: white;
+        padding: 2rem;
+        text-align: left;
+        margin: 0 auto;
+
+        @media (max-width: 920px) {
+            width: 200px;
+            right: 20%;
+        }
+
+        // .sr-only {
+        //     border: 0 !important;
+        //     clip: rect(1px, 1px, 1px, 1px) !important;
+        //     /* 1 */
+        //     -webkit-clip-path: inset(50%) !important;
+        //     clip-path: inset(50%) !important;
+        //     /* 2 */
+        //     height: 1px !important;
+        //     margin: -1px !important;
+        //     overflow: hidden !important;
+        //     padding: 0 !important;
+        //     position: absolute !important;
+        //     width: 1px !important;
+        //     white-space: nowrap !important;
+        //     /* 3 */
+        // }
+
+        .subtitle {
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin: 0;
+
+            @media (max-width: 920px) {
+                font-size: 1rem;
+            }
+        }
+
+        .text {
+            margin-bottom: 0;
+            font-size: 1.5rem;
+
+            @media (max-width: 920px) {
+                font-size: 1rem;
+            }
+        }
+
+    }
+}
+
+.features {
+    display: flex;
+    flex-direction: column;
+
+    @media (min-width: 920px) {
+
+        flex-direction: row;
+    }
+
+    .feature-item {
+        flex: 1;
+        padding: 2.5rem;
+        text-align: center;
+
+        .feature-icon {
+            width: 100px;
+            border: 10px solid #00bc77;
+            border-radius: 50%;
+            padding: 1rem;
+        }
+
+        .feature-item-title {
+            color: #222;
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+    }
+}
