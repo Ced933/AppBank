@@ -12,22 +12,49 @@ import { useAuth } from '../../contexts/Auth';
 
 const LoginPage = () => {
 
-    const { authUser,
-        setAuthUser,
+    const { authEmail,
+        setAuthEmail,
         isLoggedIn,
         setIsLoggedIn } = useAuth();
 
-    const [success, setSuccess] = useState(false);
+    // const [success, setSuccess] = useState(false);
     // user = ce que je suis en train de taper dans l'input 
     const [user, setUser] = useState("");
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
+    const [userData, setUserData] = useState({ firstName: '', lastName: '' })
 
     const navigate = useNavigate();
     // liste de tous les users dans le store 
     const users = useSelector(getAllUser);
     // const filterUser = users.filter(el => el.firstName == user);
     // console.log(users);
+    const submitUser = () => {
+        axios.post('http://localhost:3001/api/v1/user/login', {
+            email: user,
+            password: password
+        }).then(res => {
+            console.log(res);
+            // si la requette est bonne alors je suis connecté sinon je ne suis pas connecté 
+            if (res.status === 200) {
+                console.log("Tu es connecté");
+                setIsLoggedIn(true);
+                setAuthEmail({
+                    Name: user
+                })
+                navigate(`/`);
+                // navigate(`/user/${result._id}`);
+            } else if (res.response.data.status === 400) {
+                console.log('error');
+                navigate(`/login`);
+            } else {
+                console.log('recommence')
+            }
+        }).catch(error => {
+            return error;
+        });
+    }
+
 
     const handleForm = (e) => {
         e.preventDefault();
@@ -35,8 +62,8 @@ const LoginPage = () => {
         console.log(user, password)
         // ca filtre par le nom 
         // console.log(filterUser);
-
-        const result = users.find(el => (el.firstName === user) && el.password === password);
+        submitUser()
+        // const result = users.find(el => (el.email === user) && el.password === password);
 
 
 
@@ -44,54 +71,54 @@ const LoginPage = () => {
         // let isConnected = localStorage.getItem("session");
         // console.log(isConnected);
 
-        if (result) {
-            console.log("Tu es connecté");
-            // setSuccess(true);
-            // localStorage.setItem("session", true);
-            // setSuccess(isConnected);
-            setIsLoggedIn(true);
-            setAuthUser({
-                Name: user
-            })
+        // if (result) {
+        //     console.log("Tu es connecté");
+        //     // setSuccess(true);
+        //     // localStorage.setItem("session", true);
+        //     // setSuccess(isConnected);
+        //     setIsLoggedIn(true);
+        //     setAuthEmail({
+        //         Name: user
+        //     })
 
-            navigate('/user');
+        //     navigate(`/user/${result._id}`);
 
 
 
-        } else {
-            console.log("Tu n'es pas connecté");
-            // localStorage.setItem("session", false);
-            // setSuccess(isConnected);
-        }
+        // } else {
+        //     console.log("Tu n'es pas connecté");
+        //     // localStorage.setItem("session", false);
+        //     // setSuccess(isConnected);
+        // }
 
     }
     const deconnexion = () => {
         // localStorage.setItem("session", false);
-        // console.log("Tu viens de te déconnecté");
+        console.log("Tu viens de te déconnecté");
 
         setIsLoggedIn(false);
-        setAuthUser(null)
+        setAuthEmail(null)
         navigate('/');
 
     }
 
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            const response = await axios.get('http://localhost:3001/api/v1/user/signup')
-            // dispatch envoie les données dans le store 
-            dispatch(addUsers(response.data));
-        };
-        fetchUser();
+    // useEffect(() => {
+    //     const fetchUser = async () => {
+    //         const response = await axios.get('http://localhost:3001/users')
+    //         // dispatch envoie les données dans le store 
+    //         dispatch(addUsers(response.data));
+    //     };
+    //     fetchUser();
 
 
 
-    }, [user])
+    // }, [user])
 
     return (
         <>
             {
-                success ? (
+                isLoggedIn ? (
                     <div>
 
                         <h1>Tu es Connecté broo </h1>
@@ -105,7 +132,7 @@ const LoginPage = () => {
                                 <h1>Sign In</h1>
                                 <form onSubmit={(e) => handleForm(e)}>
                                     <div className="input-wrapper">
-                                        <label htmlFor="username">Username</label>
+                                        <label htmlFor="username">Email</label>
                                         <input type="text" id="username" defaultValue={user} onChange={(e) => { setUser(e.target.value) }} />
                                     </div>
                                     <div className="input-wrapper">

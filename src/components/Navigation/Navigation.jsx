@@ -7,49 +7,44 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/Auth';
 
 const Navigation = () => {
-    const { authUser,
-        setAuthUser,
+    const { authEmail,
+        setAuthEmail,
         isLoggedIn,
         setIsLoggedIn } = useAuth();
 
-    // const logIn = (e) => {
-    //     e.preventDefault();
-    //     setIsLoggedIn(true);
-    //     setAuthUser({
-    //         Name: 'John Doe'
-    //     })
-    // }
+
     const logOut = (e) => {
         e.preventDefault();
+        console.log("Tu viens de te déconnecté");
         setIsLoggedIn(false);
-        setAuthUser(null)
+        setAuthEmail(null)
         navigate('/')
     }
 
-    const [success, setSuccess] = useState();
+    // const [success, setSuccess] = useState();
 
-    let isConnected = localStorage.getItem("session");
+    // let isConnected = localStorage.getItem("session");
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        setSuccess(isConnected);
-        console.log(success, isConnected);
-    }, [isConnected, success])
+    // useEffect(() => {
+    //     // setSuccess(isConnected);
+    //     // console.log(success, isConnected);
+    // }, [])
     return (
         <nav className="main-nav">
             <NavLink to={"/"} className={"main-nav-logo"}>
                 <img
                     className="main-nav-logo-image"
-                    src="./argentBankLogo.png"
+                    src="../argentBankLogo.png"
                     alt="Argent Bank Logo"
                 />
                 <h1 className="sr-only">Argent Bank</h1>
             </NavLink>
             <div>
-                {
-                    isLoggedIn ? <h1>{authUser.Name}</h1> : null
-                }
+                {/* {
+                    isLoggedIn ? <h1>{authEmail.Name}</h1> : null
+                } */}
                 {
                     isLoggedIn ? <NavLink onClick={(e) => { logOut(e) }} >
                         <FontAwesomeIcon icon={faRightFromBracket} />

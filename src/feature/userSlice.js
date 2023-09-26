@@ -11,12 +11,19 @@ export const userSlice = createSlice({
         addUsers: (state, { payload }) => {
             state.users = payload;
         },
-        // login: (stats) =>{
-        //     success = false
-        // }
-        // logout: (state) =>{
-        //     state.user = null;
-        // }
+        updateUser:
+            (state, { payload }) => {
+
+                state.map((user) => {
+                    if (user.id === payload.id) {
+                        return {
+                            ...user,
+                            firstName: payload.firstName,
+
+                        };
+                    } else return user;
+                })
+            }
     },
 });
 
@@ -32,6 +39,6 @@ export const connexion = createSlice({
     }
 })
 
-export const { addUsers } = userSlice.actions;
+export const { addUsers, updateUser } = userSlice.actions;
 export const getAllUser = state => state.users.users;
 export default userSlice.reducer;

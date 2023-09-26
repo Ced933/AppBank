@@ -1,15 +1,59 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './UserPage.scss';
+import { getAllUser, updateUser } from '../../feature/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 const UserPage = () => {
     const arrayTransaction = [{ title: 'Argent Bank Checking (x8349)', amount: 2082.79, description: "Available Balance" },
     { title: 'Argent Bank Savings (x6712)', amount: 10928.42, description: "Available Balance" },
     { title: 'Argent Bank Credit Card (x8349)', amount: 184.30, description: "Current Balance" }]
+
+    const [editToggle, setEditToggle] = useState(false);
+    // on va chercher les données dans le store grace a useSelector  
+    const users = useSelector(getAllUser);
+    const dispatch = useDispatch();
+    // on recupère l'id 
+    const { id } = useParams();
+    console.log(id);
+    // on cherche le user avec l'id qui correspond a l'id de l'url 
+    const userCurrent = users.find(user => user._id === id);
+    const [editContent, setEditContent] = useState(userCurrent.firstName);
+    console.log(editContent);
+    const handleEdit = (e) => {
+        e.preventDefault();
+        // const userData = {
+        //     firstName: editContent,
+        //     lastName: userCurrent.lastName,
+        //     password: userCurrent.password,
+        //     email: userCurrent.email,
+        //     createdAt: userCurrent.createdAt
+
+        // };
+        // dispatch(updateUser(userData));
+        // setEditToggle(false);
+
+    }
+
     return (
         <main className="main-user">
             <div className="header">
-                <h1>Welcome back<br />Tony Jarvis!</h1>
-                <button className="edit-button">Edit Name</button>
+                {
+                    editToggle ? (
+                        <form onSubmit={(e) => handleEdit(e)}>
+                            <input type="text" autoFocus={true} defaultValue={editContent} onChange={(e) => setEditContent(e.target.value)} />
+                            <input type="submit" value="valider" />
+                        </form>
+                    ) :
+                        (
+
+                            <div>
+
+                                <h1>Welcome back<br />{userCurrent.firstName} {userCurrent.lastName} !</h1>
+                                <button onClick={() => setEditToggle(!editToggle)} className="edit-button">Edit Name</button>
+                            </div>
+                        )
+                }
             </div>
             {/* <h2 className="sr-only">Accounts</h2> */}
             <section className="account">

@@ -18,7 +18,7 @@ function App() {
           <Route path='/' element={<BaseLayout />}>
             <Route index element={<Home />} />
             <Route path='/login' element={<LoginPage />} />
-            < Route path='/user' element={<UserPage />} />
+            < Route path='/user/:id' element={<UserPage />} />
           </Route>
         </Routes>
       </AuthProvider>

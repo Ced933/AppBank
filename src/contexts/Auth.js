@@ -5,12 +5,12 @@ export function useAuth() {
 }
 
 export function AuthProvider(props) {
-    const [authUser, setAuthUser] = useState(null);
+    const [authEmail, setAuthEmail] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const value = {
-        authUser,
-        setAuthUser,
+        authEmail,
+        setAuthEmail,
         isLoggedIn,
         setIsLoggedIn
     }

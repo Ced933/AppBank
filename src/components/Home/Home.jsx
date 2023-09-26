@@ -17,15 +17,15 @@ const Home = () => {
     const user = useSelector(getAllUser);
     console.log(user);
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            const response = await axios.get('http://localhost:3001/api/v1/user/signup')
-            // dispatch envoie les données dans le store 
-            dispatch(addUsers(response.data));
-        };
-        fetchUser();
+    // useEffect(() => {
+    //     const fetchUser = async () => {
+    //         const response = await axios.get('http://localhost:3001/users')
+    //         // dispatch envoie les données dans le store 
+    //         dispatch(addUsers(response.data));
+    //     };
+    //     fetchUser();
 
-    }, [])
+    // }, [])
     return (
         <div>
             <div className="hero">
