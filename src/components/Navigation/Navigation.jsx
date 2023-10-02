@@ -5,6 +5,7 @@ import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/Auth';
+import { accountService } from '../../_services.js/account.service';
 
 const Navigation = () => {
     const { authEmail,
@@ -15,6 +16,7 @@ const Navigation = () => {
 
     const logOut = (e) => {
         e.preventDefault();
+        accountService.logout()
         console.log("Tu viens de te déconnecté");
         setIsLoggedIn(false);
         setAuthEmail(null)

@@ -9,13 +9,13 @@ import { useNavigate } from 'react-router-dom';
 // import { useDispatch, useSelector } from 'react-redux';
 // import data from '../../data';
 import { useAuth } from '../../contexts/Auth';
-
+import { accountService } from '../../_services.js/account.service';
 const LoginPage = () => {
 
 
     const [userData, setUserData] = useState({
-        email: '',
-        password: ''
+        email: 'tony@stark.com',
+        password: 'password123'
     })
     console.log(userData);
     const { authEmail,
@@ -33,7 +33,7 @@ const LoginPage = () => {
         console.log(e)
         console.log(e.target.value)
         setUserData({
-
+            // on prend les ancien valuer et on les change avec le name et la value 
             ...userData,
             [e.target.name]: e.target.value
         })
@@ -47,12 +47,13 @@ const LoginPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:3001/api/v1/user/login', userData)
+
+        accountService.login(userData)
             .then(res => {
                 console.log(res);
                 if (res.status === 200) {
                     console.log("Tu es connecté");
-                    //          
+                    accountService.saveToken(res.data.body.token)
                     setIsLoggedIn(true);
                     navigate('/admin')
                 }
