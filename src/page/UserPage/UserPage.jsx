@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import './UserPage.scss';
 import { getAllUser, updateUser } from '../../feature/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
+import { useAuth } from '../../contexts/Auth';
 
 const UserPage = () => {
+
     const arrayTransaction = [{ title: 'Argent Bank Checking (x8349)', amount: 2082.79, description: "Available Balance" },
     { title: 'Argent Bank Savings (x6712)', amount: 10928.42, description: "Available Balance" },
     { title: 'Argent Bank Credit Card (x8349)', amount: 184.30, description: "Current Balance" }]
@@ -18,8 +20,8 @@ const UserPage = () => {
     console.log(id);
     // on cherche le user avec l'id qui correspond a l'id de l'url 
     const userCurrent = users.find(user => user._id === id);
-    const [editContent, setEditContent] = useState(userCurrent.firstName);
-    console.log(editContent);
+    // const [editContent, setEditContent] = useState(userCurrent.firstName);
+    // console.log(editContent);
     const handleEdit = (e) => {
         e.preventDefault();
         // const userData = {
@@ -34,26 +36,35 @@ const UserPage = () => {
         // setEditToggle(false);
 
     }
+    const { authEmail,
+        setAuthEmail,
+        isLoggedIn,
+        setIsLoggedIn } = useAuth();
+    // si tu n'est pas connecté tu n'a pas acces a la page user 
+    if (!isLoggedIn) {
+        return <Navigate to='/auth/login' />
+    }
 
     return (
         <main className="main-user">
             <div className="header">
-                {
+                {/* {
                     editToggle ? (
                         <form onSubmit={(e) => handleEdit(e)}>
-                            <input type="text" autoFocus={true} defaultValue={editContent} onChange={(e) => setEditContent(e.target.value)} />
-                            <input type="submit" value="valider" />
-                        </form>
-                    ) :
-                        (
+                            <input type="text" autoFocus={true} />
+                            {/* <input type="text" autoFocus={true} defaultValue={editContent} onChange={(e) => setEditContent(e.target.value)} /> */}
+                {/* <input type="submit" value="valider" /> */}
+                {/* </form> */}
+                {/* ) : */}
+                {/* (
 
                             <div>
 
                                 <h1>Welcome back<br />{userCurrent.firstName} {userCurrent.lastName} !</h1>
                                 <button onClick={() => setEditToggle(!editToggle)} className="edit-button">Edit Name</button>
                             </div>
-                        )
-                }
+                        ) */}
+                {/* } */}
             </div>
             {/* <h2 className="sr-only">Accounts</h2> */}
             <section className="account">

@@ -49,7 +49,7 @@ const Navigation = () => {
                     isLoggedIn ? <NavLink onClick={(e) => { logOut(e) }} >
                         <FontAwesomeIcon icon={faRightFromBracket} />
                         Sign Out
-                    </NavLink> : <NavLink to={"/login"} >
+                    </NavLink> : <NavLink to={"/auth/login"} >
                         <FontAwesomeIcon icon={faCircleUser} />
                         Sign In
                     </NavLink>

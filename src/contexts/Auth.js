@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 const AuthContext = React.createContext();
 export function useAuth() {
     return useContext(AuthContext);
 }
 
-export function AuthProvider(props) {
+export function AuthProvider({ children }) {
+    console.log(children)
     const [authEmail, setAuthEmail] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -14,7 +16,8 @@ export function AuthProvider(props) {
         isLoggedIn,
         setIsLoggedIn
     }
+
     return (
-        <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
+        <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
     )
 }
