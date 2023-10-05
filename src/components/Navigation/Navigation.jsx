@@ -6,8 +6,11 @@ import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/Auth';
 import { accountService } from '../../_services.js/account.service';
+import { useDispatch } from 'react-redux';
+
 
 const Navigation = () => {
+    const dispatch = useDispatch();
     const { authEmail,
         setAuthEmail,
         isLoggedIn,
@@ -18,6 +21,14 @@ const Navigation = () => {
         e.preventDefault();
         accountService.logout()
         console.log("Tu viens de te déconnecté");
+        dispatch({
+            type: "users/addUsers",
+            payload: ""
+        })
+        dispatch({
+            type: "users/isLogged",
+            payload: false
+        })
         setIsLoggedIn(false);
         setAuthEmail(null)
         navigate('/')
@@ -48,10 +59,10 @@ const Navigation = () => {
                     isLoggedIn ? <h1>{authEmail.Name}</h1> : null
                 } */}
                 {
-                    isLoggedIn ? <NavLink onClick={(e) => { logOut(e) }} >
+                    isLoggedIn ? <div> <NavLink to={'/admin/user'}> mon compte</NavLink> <NavLink onClick={(e) => { logOut(e) }} >
                         <FontAwesomeIcon icon={faRightFromBracket} />
                         Sign Out
-                    </NavLink> : <NavLink to={"/auth/login"} >
+                    </NavLink> </div> : <NavLink to={"/auth/login"} >
                         <FontAwesomeIcon icon={faCircleUser} />
                         Sign In
                     </NavLink>

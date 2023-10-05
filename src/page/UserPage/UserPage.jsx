@@ -13,13 +13,13 @@ const UserPage = () => {
 
     const [editToggle, setEditToggle] = useState(false);
     // on va chercher les données dans le store grace a useSelector  
-    const users = useSelector(getAllUser);
+    // const users = useSelector(getAllUser);
     const dispatch = useDispatch();
     // on recupère l'id 
     const { id } = useParams();
     console.log(id);
     // on cherche le user avec l'id qui correspond a l'id de l'url 
-    const userCurrent = users.find(user => user._id === id);
+    // const userCurrent = users.find(user => user._id === id);
     // const [editContent, setEditContent] = useState(userCurrent.firstName);
     // console.log(editContent);
     const handleEdit = (e) => {

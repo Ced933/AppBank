@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 // import { useDispatch, useSelector } from 'react-redux';
 // import data from '../../data';
+import Axios from '../../_services.js/caller.service';
 import { useAuth } from '../../contexts/Auth';
 import { accountService } from '../../_services.js/account.service';
 const LoginPage = () => {
@@ -54,12 +55,58 @@ const LoginPage = () => {
                 if (res.status === 200) {
                     console.log("Tu es connecté");
                     accountService.saveToken(res.data.body.token)
+                    dispatch({
+                        type: "users/addUsers",
+                        payload: res.data.body.token
+                    })
+                    dispatch({
+                        type: "users/isLogged",
+                        payload: true
+                    })
                     setIsLoggedIn(true);
                     navigate('/admin')
                 }
+
+
+
+
+
+
+                let token = res.data.body.token;
+
+                console.log(token);
+                const config = {
+                    headers: { Authorization: `Bearer ${token}` }
+                };
+                const bodyParameters = {
+                    key: "value"
+                };
+                Axios.post(
+                    'http://localhost:3001/api/v1/user/profile',
+                    bodyParameters,
+                    config
+                ).then(res => dispatch({
+                    type: "users/userInfo",
+                    payload: {
+                        email: res.data.body.email,
+                        firstName: res.data.body.firstName,
+                        lastName: res.data.body.lastName,
+                        id: res.data.body.id
+                    }
+                })).catch(console.log);
+
             }).catch(error => console.log(error))
 
+
     }
+
+    useEffect(() => {
+        let token = localStorage.getItem('token');
+        if (token) {
+            setIsLoggedIn(true);
+            navigate('/admin')
+        }
+    }, [])
     // liste de tous les users dans le store 
     // const users = useSelector(getAllUser);
     // const filterUser = users.filter(el => el.firstName == user);

@@ -10,12 +10,12 @@ const Home = () => {
     { img: "./icon-money.png", title: "More savings means higher rates", content: "  The more you save with us, the higher your interest rate will be!" },
     { img: "./icon-security.png", title: "Security you can trust", content: "We use top of the line encryption to make sure your data and money is always safe." }]
 
-
-
+    const com = useSelector(state => state.users);
+    console.log(com)
     const dispatch = useDispatch();
     // useSelectore permet de récupérer les données dans le store et pouvoir les utiliser 
-    const user = useSelector(getAllUser);
-    console.log(user);
+    // const user = useSelector(getAllUser);
+    // console.log(user);
 
     // useEffect(() => {
     //     const fetchUser = async () => {
@@ -35,6 +35,10 @@ const Home = () => {
                     <p className="subtitle">No minimum deposit.</p>
                     <p className="subtitle">High interest rates.</p>
                     <p className="text">Open a savings account with Argent Bank today!</p>
+                    {/* <button onClick={() => dispatch({
+                        type: "users/addUsers",
+                        payload: "c'est l'heure du bijouni"
+                    })}>Click</button> */}
                 </section>
             </div>
 
