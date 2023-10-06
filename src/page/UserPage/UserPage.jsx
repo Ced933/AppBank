@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import './UserPage.scss';
-import { getAllUser, updateUser } from '../../feature/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useParams } from 'react-router-dom';
-import { useAuth } from '../../contexts/Auth';
+
 
 const UserPage = () => {
 
@@ -16,17 +15,32 @@ const UserPage = () => {
     // const users = useSelector(getAllUser);
     const dispatch = useDispatch();
     // on recupère l'id 
-    const { id } = useParams();
-    console.log(id);
-
+    // const { id } = useParams();
+    // console.log(id);
     const userLogged = useSelector(state => state.users);
+
+    const [userData, setUserData] = useState({
+        newfirstname: userLogged.userInfo.firstName,
+        newlastname: userLogged.userInfo.lastName
+    })
+
+
+    console.log(userData)
+
     console.log(userLogged.isConnect)
     // on cherche le user avec l'id qui correspond a l'id de l'url 
     // const userCurrent = users.find(user => user._id === id);
-    // const [editContent, setEditContent] = useState(userCurrent.firstName);
+    const [editContent, setEditContent] = useState('');
     // console.log(editContent);
-    const handleEdit = (e) => {
+    const changeValue = (e) => {
         e.preventDefault();
+        console.log(e)
+        console.log(e.target.value)
+        setUserData({
+            ...userData,
+            [e.target.name]: e.target.value
+        })
+        // setEditToggle(false)
         // const userData = {
         //     firstName: editContent,
         //     lastName: userCurrent.lastName,
@@ -39,10 +53,18 @@ const UserPage = () => {
         // setEditToggle(false);
 
     }
-    // const { authEmail,
-    //     setAuthEmail,
-    //     isLoggedIn,
-    //     setIsLoggedIn } = useAuth();
+    const handleEdit = (e) => {
+        e.preventDefault()
+        console.log('bien reçu')
+        setEditToggle(false)
+        dispatch({
+            type: "users/userInfo",
+            payload: {
+                firstName: userData.newfirstname,
+                lastName: userData.newlastname
+            }
+        })
+    }
 
     // si tu n'est pas connecté tu n'a pas acces a la page user 
     if (!userLogged.isConnect) {
@@ -52,30 +74,27 @@ const UserPage = () => {
     return (
         <main className="main-user">
             <div className="header">
-                {/* {
+                {
                     editToggle ? (
                         <form onSubmit={(e) => handleEdit(e)}>
-                            <input type="text" autoFocus={true} />
-                            {/* <input type="text" autoFocus={true} defaultValue={editContent} onChange={(e) => setEditContent(e.target.value)} /> */}
-                {/* <input type="submit" value="valider" /> */}
-                {/* </form> */}
-                {/* ) : */}
-                {/* (
+                            <h1>Welcome back<br /></h1>
+                            <input type="text" name='newfirstname' autoFocus={true} defaultValue={userLogged.userInfo.firstName} onChange={changeValue} />
+                            <input type="text" name='newlastname' autoFocus={true} defaultValue={userLogged.userInfo.lastName} onChange={changeValue} />
+                            <input type="submit" value="valider" />
+                        </form>
+                    ) :
+                        (
 
                             <div>
 
-                                <h1>Welcome back<br />{userCurrent.firstName} {userCurrent.lastName} !</h1>
+                                <h1>Welcome back<br />{userLogged.userInfo.firstName} {userLogged.userInfo.lastName} !</h1>
                                 <button onClick={() => setEditToggle(!editToggle)} className="edit-button">Edit Name</button>
                             </div>
-                        ) */}
-                {/* } */}
+                        )
+                }
             </div>
-            {/* <h2 className="sr-only">Accounts</h2> */}
-            <div>
+            <h2 className="sr-only">Accounts</h2>
 
-                <h1>Welcome back<br />{userLogged.userInfo.firstName} {userLogged.userInfo.lastName} !</h1>
-                {/* <button onClick={() => setEditToggle(!editToggle)} className="edit-button">Edit Name</button> */}
-            </div>
             <section className="account">
                 <div className="account-content-wrapper">
                     <h3 className="account-title">Argent Bank Checking (x8349)</h3>
@@ -86,7 +105,7 @@ const UserPage = () => {
                     <button className="transaction-button">View transactions</button>
                 </div>
             </section>
-            {/* <section className="account">
+            <section className="account">
                 <div className="account-content-wrapper">
                     <h3 className="account-title">Argent Bank Savings (x6712)</h3>
                     <p className="account-amount">$10,928.42</p>
@@ -105,7 +124,7 @@ const UserPage = () => {
                 <div className="account-content-wrapper cta">
                     <button className="transaction-button">View transactions</button>
                 </div>
-            </section> */}
+            </section>
         </main>
     );
 };

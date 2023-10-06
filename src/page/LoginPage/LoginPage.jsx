@@ -3,13 +3,12 @@ import './LoginPage.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { addUsers, getAllUser } from '../../feature/userSlice';
+
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-// import { useDispatch, useSelector } from 'react-redux';
-// import data from '../../data';
+
 import Axios from '../../_services.js/caller.service';
-// import { useAuth } from '../../contexts/Auth';
+
 import { accountService } from '../../_services.js/account.service';
 const LoginPage = () => {
 
@@ -19,19 +18,9 @@ const LoginPage = () => {
         password: 'password123'
     })
     console.log(userData);
-    // const { authEmail,
-    //     setAuthEmail,
-    //     isLoggedIn,
-    //     setIsLoggedIn } = useAuth();
 
     const userLogged = useSelector(state => state.users)
     console.log(userLogged.isConnect)
-
-    // const [success, setSuccess] = useState(false);
-    // user = ce que je suis en train de taper dans l'input 
-    // const [user, setUser] = useState("");
-    // const [password, setPassword] = useState('');
-
 
     const onChangeValue = (e) => {
         console.log(e)
@@ -45,7 +34,6 @@ const LoginPage = () => {
 
 
     const dispatch = useDispatch();
-    // const [userData, setUserData] = useState({ firstName: '', lastName: '' })
 
     const navigate = useNavigate();
 
@@ -66,7 +54,6 @@ const LoginPage = () => {
                         type: "users/isLogged",
                         payload: true
                     })
-                    // setIsLoggedIn(true);
                     navigate('/admin')
                 }
                 // en cas d'erreur 401 
@@ -76,12 +63,9 @@ const LoginPage = () => {
                         type: "users/isLogged",
                         payload: false
                     })
-                    // setIsLoggedIn(false);
+
                     console.log('Unauthorized')
                 }
-
-
-
 
                 // On recupère le token + info user 
 
@@ -94,7 +78,7 @@ const LoginPage = () => {
                 const bodyParameters = {
                     key: "value"
                 };
-                Axios.post(
+                axios.post(
                     'http://localhost:3001/api/v1/user/profile',
                     bodyParameters,
                     config
@@ -109,8 +93,6 @@ const LoginPage = () => {
                 })).catch(console.log);
 
             }).catch(error => console.log(error))
-
-
     }
 
     let token = localStorage.getItem('token');
@@ -120,7 +102,6 @@ const LoginPage = () => {
                 type: "users/isLogged",
                 payload: true
             })
-            // setIsLoggedIn(true);
             navigate('/admin')
 
         } else {
@@ -129,82 +110,11 @@ const LoginPage = () => {
                 payload: false
             })
             navigate('/auth/login');
-            // setIsLoggedIn(false);
+
         }
     }, [token])
-    // liste de tous les users dans le store 
-    // const users = useSelector(getAllUser);
-    // const filterUser = users.filter(el => el.firstName == user);
-    // console.log(users);
-
-
-    // const submitUser = () => {
-    //     axios.post('http://localhost:3001/api/v1/user/login', {
-    //         email: user,
-    //         password: password
-    //     }).then(res => {
-    //         console.log(res);
-    //         // si la requette est bonne alors je suis connecté sinon je ne suis pas connecté 
-    //         if (res.status === 200) {
-    //             console.log("Tu es connecté");
-    //             setIsLoggedIn(true);
-    //             setAuthEmail({
-    //                 Name: user
-    //             })
-    //             let token = res.data.body.token;
-    //             localStorage.setItem('token', token)
-
-    //             navigate(`/admin/user`);
-
-    //         } else if (res.response.data.status === 400) {
-    //             console.log('error');
-    //             navigate(`/auth/login`);
-    //         } else {
-    //             console.log('recommence')
-    //         }
-    //     }).catch(error => {
-    //         return error;
-    //     });
-    // }
-
-
-    // const handleForm = (e) => {
-    //     e.preventDefault();
-
-    //     console.log(user, password)
-
-
-    //     submitUser()
-
-
-    // }
-
-    // const deconnexion = () => {
-    //     // localStorage.setItem("session", false);
-    //     console.log("Tu viens de te déconnecté");
-
-    //     setIsLoggedIn(false);
-    //     setAuthEmail(null)
-    //     navigate('/');
-
-    // }
-
-
-    // useEffect(() => {
-    // const fetchUser = async () => {
-    //     const response = await axios.get('http://localhost:3001/users')
-    //     // dispatch envoie les données dans le store 
-    //     dispatch(addUsers(response.data));
-    // };
-    // fetchUser();
-    // const currentUser = 
-
-
-    // }, [user])
 
     return (
-
-
 
         <div>
             <main className="main bg-dark">
