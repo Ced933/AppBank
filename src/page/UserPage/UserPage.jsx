@@ -18,6 +18,9 @@ const UserPage = () => {
     // on recupère l'id 
     const { id } = useParams();
     console.log(id);
+
+    const userLogged = useSelector(state => state.users);
+    console.log(userLogged.isConnect)
     // on cherche le user avec l'id qui correspond a l'id de l'url 
     // const userCurrent = users.find(user => user._id === id);
     // const [editContent, setEditContent] = useState(userCurrent.firstName);
@@ -36,12 +39,13 @@ const UserPage = () => {
         // setEditToggle(false);
 
     }
-    const { authEmail,
-        setAuthEmail,
-        isLoggedIn,
-        setIsLoggedIn } = useAuth();
+    // const { authEmail,
+    //     setAuthEmail,
+    //     isLoggedIn,
+    //     setIsLoggedIn } = useAuth();
+
     // si tu n'est pas connecté tu n'a pas acces a la page user 
-    if (!isLoggedIn) {
+    if (!userLogged.isConnect) {
         return <Navigate to='/auth/login' />
     }
 
@@ -67,6 +71,11 @@ const UserPage = () => {
                 {/* } */}
             </div>
             {/* <h2 className="sr-only">Accounts</h2> */}
+            <div>
+
+                <h1>Welcome back<br />{userLogged.userInfo.firstName} {userLogged.userInfo.lastName} !</h1>
+                {/* <button onClick={() => setEditToggle(!editToggle)} className="edit-button">Edit Name</button> */}
+            </div>
             <section className="account">
                 <div className="account-content-wrapper">
                     <h3 className="account-title">Argent Bank Checking (x8349)</h3>

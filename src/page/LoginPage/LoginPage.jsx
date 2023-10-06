@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 // import { useDispatch, useSelector } from 'react-redux';
 // import data from '../../data';
 import Axios from '../../_services.js/caller.service';
-import { useAuth } from '../../contexts/Auth';
+// import { useAuth } from '../../contexts/Auth';
 import { accountService } from '../../_services.js/account.service';
 const LoginPage = () => {
 
@@ -19,10 +19,13 @@ const LoginPage = () => {
         password: 'password123'
     })
     console.log(userData);
-    const { authEmail,
-        setAuthEmail,
-        isLoggedIn,
-        setIsLoggedIn } = useAuth();
+    // const { authEmail,
+    //     setAuthEmail,
+    //     isLoggedIn,
+    //     setIsLoggedIn } = useAuth();
+
+    const userLogged = useSelector(state => state.users)
+    console.log(userLogged.isConnect)
 
     // const [success, setSuccess] = useState(false);
     // user = ce que je suis en train de taper dans l'input 
@@ -63,14 +66,24 @@ const LoginPage = () => {
                         type: "users/isLogged",
                         payload: true
                     })
-                    setIsLoggedIn(true);
+                    // setIsLoggedIn(true);
                     navigate('/admin')
+                }
+                // en cas d'erreur 401 
+                if (res.status === 401) {
+                    navigate('/auth/login');
+                    dispatch({
+                        type: "users/isLogged",
+                        payload: false
+                    })
+                    // setIsLoggedIn(false);
+                    console.log('Unauthorized')
                 }
 
 
 
 
-
+                // On recupère le token + info user 
 
                 let token = res.data.body.token;
 
@@ -100,13 +113,25 @@ const LoginPage = () => {
 
     }
 
+    let token = localStorage.getItem('token');
     useEffect(() => {
-        let token = localStorage.getItem('token');
         if (token) {
-            setIsLoggedIn(true);
+            dispatch({
+                type: "users/isLogged",
+                payload: true
+            })
+            // setIsLoggedIn(true);
             navigate('/admin')
+
+        } else {
+            dispatch({
+                type: "users/isLogged",
+                payload: false
+            })
+            navigate('/auth/login');
+            // setIsLoggedIn(false);
         }
-    }, [])
+    }, [token])
     // liste de tous les users dans le store 
     // const users = useSelector(getAllUser);
     // const filterUser = users.filter(el => el.firstName == user);
@@ -154,15 +179,15 @@ const LoginPage = () => {
 
     // }
 
-    const deconnexion = () => {
-        // localStorage.setItem("session", false);
-        console.log("Tu viens de te déconnecté");
+    // const deconnexion = () => {
+    //     // localStorage.setItem("session", false);
+    //     console.log("Tu viens de te déconnecté");
 
-        setIsLoggedIn(false);
-        setAuthEmail(null)
-        navigate('/');
+    //     setIsLoggedIn(false);
+    //     setAuthEmail(null)
+    //     navigate('/');
 
-    }
+    // }
 
 
     // useEffect(() => {
