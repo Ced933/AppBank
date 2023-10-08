@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './UserPage.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 
 const UserPage = () => {
@@ -15,55 +16,90 @@ const UserPage = () => {
     // const users = useSelector(getAllUser);
     const dispatch = useDispatch();
     // on recupère l'id 
-    // const { id } = useParams();
-    // console.log(id);
+
     const userLogged = useSelector(state => state.users);
 
     const [userData, setUserData] = useState({
-        newfirstname: userLogged.userInfo.firstName,
-        newlastname: userLogged.userInfo.lastName
+        // de base c'est les element qui sont deja la exemple firstname : 'jack' je recupére userlogged du store et je precise que je veux le firstname
+        firstName: userLogged.userInfo.firstName,
+        lastName: userLogged.userInfo.lastName
     })
 
 
+
+    useEffect(() => {
+
+    }, [userLogged, userData])
+
     console.log(userData)
 
-    console.log(userLogged.isConnect)
+    if (userData) {
+
+        console.log(userLogged.userInfo.firstName)
+    }
     // on cherche le user avec l'id qui correspond a l'id de l'url 
     // const userCurrent = users.find(user => user._id === id);
-    const [editContent, setEditContent] = useState('');
-    // console.log(editContent);
+    // const [editContent, setEditContent] = useState('');
+    //    la fonction que je vais donner a mes input 
     const changeValue = (e) => {
         e.preventDefault();
-        console.log(e)
-        console.log(e.target.value)
+        //    on reprend les anciennes de userData avec ...userData
+        // en suite on lui donne pour chaque name une nouvelle valeur du moins celle qu'on est en train d'ecrire ds l'input  
         setUserData({
             ...userData,
             [e.target.name]: e.target.value
         })
-        // setEditToggle(false)
-        // const userData = {
-        //     firstName: editContent,
-        //     lastName: userCurrent.lastName,
-        //     password: userCurrent.password,
-        //     email: userCurrent.email,
-        //     createdAt: userCurrent.createdAt
-
-        // };
-        // dispatch(updateUser(userData));
-        // setEditToggle(false);
-
     }
+
+
     const handleEdit = (e) => {
         e.preventDefault()
         console.log('bien reçu')
+        // on fait dispatraitre le bouton apres avoir cliqué desssus 
         setEditToggle(false)
-        dispatch({
-            type: "users/userInfo",
-            payload: {
-                firstName: userData.newfirstname,
-                lastName: userData.newlastname
+        // on envoie les modification dans le store dans userInfo on va modifier le firstname et le lastname grace a newfirstname et newlastname qui sont ce qu'on est en train de tapé actuellement dans l'iinpu
+        const token = localStorage.getItem('token');
+        console.log(token);
+
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+        const bodyParameters = {
+            key: "value"
+        };
+        const userdescribe = {
+            firstName: 'okok',
+            lastName: 'popo'
+        }
+
+        axios.put('http://localhost:3001/api/v1/user/profile', bodyParameters,
+            config).then(response => {
+                console.log(response)
+                dispatch({
+
+                    type: "users/userInfo",
+                    payload: {
+                        email: response.data.body.email,
+                        firstName: userData.firstName,
+                        lastName: userData.lastName,
+                        id: response.data.body.id,
+
+                    }
+                })
             }
-        })
+            ).catch(error => console.log(error))
+
+        // dispatch({
+
+        //     type: "users/userInfo",
+        //     payload: {
+        //         email: response.data.body.email,
+        //         firstName: userData.newfirstname,
+        //         lastName: userData.newlastname,
+        //         id: response.data.body.id,
+
+        //     }
+        // })
     }
 
     // si tu n'est pas connecté tu n'a pas acces a la page user 
@@ -78,8 +114,8 @@ const UserPage = () => {
                     editToggle ? (
                         <form onSubmit={(e) => handleEdit(e)}>
                             <h1>Welcome back<br /></h1>
-                            <input type="text" name='newfirstname' autoFocus={true} defaultValue={userLogged.userInfo.firstName} onChange={changeValue} />
-                            <input type="text" name='newlastname' autoFocus={true} defaultValue={userLogged.userInfo.lastName} onChange={changeValue} />
+                            <input type="text" name='firstName' defaultValue={userLogged.userInfo.firstName} onChange={changeValue} />
+                            <input type="text" name='lastName' defaultValue={userLogged.userInfo.lastName} onChange={changeValue} />
                             <input type="submit" value="valider" />
                         </form>
                     ) :

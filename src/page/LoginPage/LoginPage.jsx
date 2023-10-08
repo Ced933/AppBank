@@ -82,15 +82,19 @@ const LoginPage = () => {
                     'http://localhost:3001/api/v1/user/profile',
                     bodyParameters,
                     config
-                ).then(res => dispatch({
-                    type: "users/userInfo",
-                    payload: {
-                        email: res.data.body.email,
-                        firstName: res.data.body.firstName,
-                        lastName: res.data.body.lastName,
-                        id: res.data.body.id
-                    }
-                })).catch(console.log);
+                ).then(res => {
+                    console.log(res)
+                    dispatch({
+                        type: "users/userInfo",
+                        payload: {
+                            email: res.data.body.email,
+                            firstName: res.data.body.firstName,
+                            lastName: res.data.body.lastName,
+                            id: res.data.body.id
+                        }
+                    })
+                }
+                ).catch(console.log);
 
             }).catch(error => console.log(error))
     }

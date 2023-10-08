@@ -10,9 +10,7 @@ export const userSlice = createSlice({
         isConnect: false,
         token: '',
         userInfo: '',
-        // firstName: "",
-        // lastName: "",
-        // id: ''
+
     },
     reducers: {
         addUsers: (state, action) => {
@@ -29,6 +27,14 @@ export const userSlice = createSlice({
             // state.lastName = action.payload;
             // state.id = action.payload;
         }
+        // editInfo :(state, action) =>{
+        //  return{
+        //     ...state.userInfo,
+        //     state.userInfo = action.payload
+
+        //  }   
+
+
         // (state, { payload }) => {
 
         //     state.map((user) => {
