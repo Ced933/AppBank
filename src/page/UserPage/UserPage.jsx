@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './UserPage.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -16,7 +16,7 @@ const UserPage = () => {
     // const users = useSelector(getAllUser);
     const dispatch = useDispatch();
     // on recupère l'id 
-
+    const navigate = useNavigate();
     const userLogged = useSelector(state => state.users);
 
     const [userData, setUserData] = useState({
@@ -52,54 +52,47 @@ const UserPage = () => {
     }
 
 
-    const handleEdit = (e) => {
-        e.preventDefault()
-        console.log('bien reçu')
-        // on fait dispatraitre le bouton apres avoir cliqué desssus 
-        setEditToggle(false)
-        // on envoie les modification dans le store dans userInfo on va modifier le firstname et le lastname grace a newfirstname et newlastname qui sont ce qu'on est en train de tapé actuellement dans l'iinpu
-        const token = localStorage.getItem('token');
-        console.log(token);
+    const handleEdit = async (e) => {
+        e.preventDefault();
+        // Si les champs sont vide ou un des deux alors on envoie pas le formulaire  
+        if (userData.firstName.length !== 0 && userData.lastName.length !== 0) {
 
-        const config = {
-            headers: { Authorization: `Bearer ${token}` }
-        };
-        const bodyParameters = {
-            key: "value"
-        };
-        const userdescribe = {
-            firstName: 'okok',
-            lastName: 'popo'
+
+            console.log('bien reçu')
+            // on fait dispatraitre le bouton apres avoir cliqué desssus 
+            setEditToggle(false)
+            // on envoie les modification dans le store dans userInfo on va modifier le firstname et le lastname grace a newfirstname et newlastname qui sont ce qu'on est en train de tapé actuellement dans l'iinpu
+            const token = localStorage.getItem('token');
+            console.log(token);
+
+            const config = {
+                headers: { Authorization: `Bearer ${token}` }
+            };
+            const bodyParameters = {
+                // si l'utilisateur ne change pas de nom alors on prend la valeur qui était presente 
+                firstName: userData.firstName ? userData.firstName : userLogged.userInfo.firstName,
+                lastName: userData.lastName ? userData.lastName : userLogged.userInfo.lastName,
+            };
+
+
+            await axios.put('http://localhost:3001/api/v1/user/profile', bodyParameters,
+                config).then(response => {
+                    console.log(response)
+                    dispatch({
+
+                        type: "users/userInfo",
+                        payload: {
+                            email: response.data.body.email,
+                            firstName: userData.firstName ? userData.firstName : userLogged.userInfo.firstName,
+                            lastName: userData.lastName ? userData.lastName : userLogged.userInfo.lastName,
+                            id: response.data.body.id,
+
+                        }
+                    })
+                }
+                ).catch(error => console.log(error), navigate('/auth/login'))
         }
 
-        axios.put('http://localhost:3001/api/v1/user/profile', bodyParameters,
-            config).then(response => {
-                console.log(response)
-                dispatch({
-
-                    type: "users/userInfo",
-                    payload: {
-                        email: response.data.body.email,
-                        firstName: userData.firstName,
-                        lastName: userData.lastName,
-                        id: response.data.body.id,
-
-                    }
-                })
-            }
-            ).catch(error => console.log(error))
-
-        // dispatch({
-
-        //     type: "users/userInfo",
-        //     payload: {
-        //         email: response.data.body.email,
-        //         firstName: userData.newfirstname,
-        //         lastName: userData.newlastname,
-        //         id: response.data.body.id,
-
-        //     }
-        // })
     }
 
     // si tu n'est pas connecté tu n'a pas acces a la page user 
@@ -147,7 +140,7 @@ const UserPage = () => {
                     <p className="account-amount">$10,928.42</p>
                     <p className="account-amount-description">Available Balance</p>
                 </div>
-                <div className="account-content-wrapper cta">
+                <div className="account-content-wrapper-two cta">
                     <button className="transaction-button">View transactions</button>
                 </div>
             </section>
@@ -157,7 +150,7 @@ const UserPage = () => {
                     <p className="account-amount">$184.30</p>
                     <p className="account-amount-description">Current Balance</p>
                 </div>
-                <div className="account-content-wrapper cta">
+                <div className="account-content-wrapper-two cta">
                     <button className="transaction-button">View transactions</button>
                 </div>
             </section>

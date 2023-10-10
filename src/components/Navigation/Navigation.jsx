@@ -20,8 +20,8 @@ const Navigation = () => {
         accountService.logout()
         console.log("Tu viens de te déconnecté");
         dispatch({
-            type: "users/addUsers",
-            payload: ""
+            type: "users/tokenUser",
+            payload: null
         })
         dispatch({
             type: "users/isLogged",
@@ -30,10 +30,10 @@ const Navigation = () => {
         dispatch({
             type: "users/userInfo",
             payload: {
-                email: "",
-                firstName: "",
-                lastName: "",
-                id: ""
+                email: null,
+                firstName: null,
+                lastName: null,
+                id: null
             }
         })
         navigate('/')

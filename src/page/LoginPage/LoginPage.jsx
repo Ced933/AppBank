@@ -47,7 +47,7 @@ const LoginPage = () => {
                     console.log("Tu es connecté");
                     accountService.saveToken(res.data.body.token)
                     dispatch({
-                        type: "users/addUsers",
+                        type: "users/tokenUser",
                         payload: res.data.body.token
                     })
                     dispatch({
@@ -96,7 +96,7 @@ const LoginPage = () => {
                 }
                 ).catch(console.log);
 
-            }).catch(error => console.log(error))
+            }).catch(error => console.log(error), navigate('/auth/login'))
     }
 
     let token = localStorage.getItem('token');

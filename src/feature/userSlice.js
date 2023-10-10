@@ -13,7 +13,7 @@ export const userSlice = createSlice({
 
     },
     reducers: {
-        addUsers: (state, action) => {
+        tokenUser: (state, action) => {
             state.token = action.payload;
 
         },
@@ -23,9 +23,7 @@ export const userSlice = createSlice({
         },
         userInfo: (state, action) => {
             state.userInfo = action.payload;
-            // state.firstName = action.payload;
-            // state.lastName = action.payload;
-            // state.id = action.payload;
+
         }
         // editInfo :(state, action) =>{
         //  return{
@@ -62,6 +60,6 @@ export const userSlice = createSlice({
 //     }
 // })
 
-export const { addUsers, isLogged, userInfo } = userSlice.actions;
+export const { tokenUser, isLogged, userInfo } = userSlice.actions;
 export const getAllUser = state => state.users.users;
 export default userSlice.reducer;
