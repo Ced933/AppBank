@@ -54,8 +54,8 @@ const UserPage = () => {
 
     const handleEdit = async (e) => {
         e.preventDefault();
-        // Si les champs sont vide ou un des deux alors on envoie pas le formulaire  
-        if (userData.firstName.length !== 0 && userData.lastName.length !== 0) {
+        // Si les champs sont vide ou un des deux ou alors il y a juste des espace alors on envoie pas le formulaire  
+        if (userData.firstName.trim().length !== 0 && userData.lastName.trim().length !== 0) {
 
 
             console.log('bien reçu')
