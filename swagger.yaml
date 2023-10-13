@@ -1,9 +1,9 @@
-swagger: '2.0'
+swagger: "2.0"
 info:
   title: Bank Argent API documentation
   description: Contains all available API endpoints in this codebase
-  version: '1.0.0'
-  termsOfService: 'http://swagger.io/terms/'
+  version: "1.0.0"
+  termsOfService: "http://swagger.io/terms/"
 host: localhost:3001
 basePath: /api/v1
 schemes:
@@ -66,7 +66,8 @@ paths:
       summary: User Profile API
       description: API for fetching a user profile
       parameters:
-        - in: header
+        - type: string
+          in: header
           name: Authorization
           description: Attach Bearer JWT token
           required: true
@@ -89,7 +90,8 @@ paths:
       summary: User Profile API
       description: API for updating a user profile
       parameters:
-        - in: header
+        - type: string
+          in: header
           name: Authorization
           description: Attach Bearer JWT token
           required: true
@@ -110,12 +112,12 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
-  user/profile/transactions:
+  /user/profile/transactions:
     get:
       security:
       - Bearer: []
       tags:
-        - All Transactions
+        - User Transactions
       summary: The list of all Transactions 
       description: API to distribute the list of transactions for the current month
       parameters:
@@ -141,7 +143,7 @@ paths:
       security:
       - Bearer: []
       tags:
-        - Create a Transaction
+        - User Transactions
       summary: The User can create a Transaction
       description: The User can create a Transaction
       parameters:
@@ -164,12 +166,12 @@ paths:
         "500":
           description: Internal Server Error
 
-  user/profile/transactions/{transactionid}:
+  /user/profile/transactions/{transactionId}:
     get:
       security:
       - Bearer: []
       tags:
-       - Get A Transaction
+       - User Transactions
       summary: Get a particular transaction using the id
       description: Get a particular transaction using the id
       parameters:
@@ -179,7 +181,7 @@ paths:
           type: string
           required: true
         - in: path
-          name: transactionsId
+          name: transactionId
           description: ID of transaction to fetch
           required: true
           type: string
@@ -198,7 +200,7 @@ paths:
       security:
       - Bearer: []
       tags:
-      - Update a Transaction
+      - User Transactions
       summary: Update an transaction
       description: Update an transaction
       parameters:
@@ -208,7 +210,7 @@ paths:
           type: string
           required: true
         - in: path
-          name: transactionsId
+          name: transactionId
           description: ID of transaction to fetch
           required: true
           type: string
@@ -221,23 +223,21 @@ paths:
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/definitions/TransactionItem'
-        '400':
+          schema:
+            $ref: '#/definitions/TransactionItem'
+        "400":
           description: Invalid ID
-        '404':
+        "404":
           description: Transaction not found
-        '405':
+        "405":
           description: Validation exception
     delete:
       security:
       - Bearer: []
       tags:
-      - Delete A Transaction
+      - User Transactions
       summary: Delete a transaction
       description: Delete a transaction
       parameters:
@@ -247,7 +247,7 @@ paths:
           type: string
           required: true
         - in: path
-          name: transactionsId
+          name: transactionId
           description: ID of transaction to fetch
           required: true
           type: string
@@ -258,6 +258,11 @@ paths:
           description: Invalid ID supplied
         '404':
           description: Order not found
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
 definitions:
   TransactionItem:
     properties:
@@ -321,4 +326,3 @@ definitions:
         type: string
       lastName:
         type: string
-

@@ -8,7 +8,6 @@
         color: #fff;
         margin-bottom: 2rem;
 
-
         .edit-button {
             border-color: #00bc77;
             background-color: #00bc77;
@@ -21,13 +20,10 @@
     .account {
         display: flex;
         justify-content: space-between;
-        // align-items: center;
         border: 1px solid black;
         background-color: #fff;
         width: 80%;
         margin: 0 auto;
-        // margin: 0 auto;
-        // flex-direction: column;
         padding: 1.5rem;
         box-sizing: border-box;
         text-align: left;
@@ -35,9 +31,7 @@
         border: 1px solid red;
 
         .account-content-wrapper {
-            // width: 100%;
             flex: 1;
-            // border: 1px solid royalblue;
 
             .account-title {
                 margin: 0;
@@ -55,23 +49,19 @@
             .account-amount-description {
                 margin: 0;
             }
-
         }
 
         .account-content-wrapper-two {
-            // width: 50%;
             flex: 1;
             display: flex;
             justify-content: end;
             align-items: center;
 
             .transaction-button {
-                // display: block;
                 width: 50%;
                 padding: 8px;
                 font-size: 1.1rem;
                 font-weight: bold;
-                // margin-top: 1rem;
                 border-color: #00bc77;
                 background-color: #00bc77;
                 color: #fff;

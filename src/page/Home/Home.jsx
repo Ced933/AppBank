@@ -22,7 +22,6 @@ const Home = () => {
                 <h2 className="sr-only">Features</h2>
                 {
                     arrayFeature.map((feature, index) => {
-
                         return <div key={index} className="feature-item">
                             <img src={feature.img} alt="Chat Icon" className="feature-icon" />
                             <h3 className="feature-item-title">{feature.title}</h3>
@@ -30,9 +29,7 @@ const Home = () => {
                         </div>
                     })
                 }
-
             </section>
-
         </div>
     );
 };

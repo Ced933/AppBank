@@ -7,24 +7,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-import Axios from '../../_services.js/caller.service';
-
 import { accountService } from '../../_services.js/account.service';
 const LoginPage = () => {
-
 
     const [userData, setUserData] = useState({
         email: 'tony@stark.com',
         password: 'password123'
     })
-    console.log(userData);
 
     const userLogged = useSelector(state => state.users)
-    console.log(userLogged.isConnect)
 
     const onChangeValue = (e) => {
-        console.log(e)
-        console.log(e.target.value)
         setUserData({
             // on prend les ancien valuer et on les change avec le name et la value 
             ...userData,
@@ -32,11 +25,8 @@ const LoginPage = () => {
         })
     }
 
-
     const dispatch = useDispatch();
-
     const navigate = useNavigate();
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -51,17 +41,33 @@ const LoginPage = () => {
                         payload: res.data.body.token
                     })
                     dispatch({
-                        type: "users/isLogged",
-                        payload: true
+                        type: "users/userInfo",
+                        payload: {
+                            isLogged: true,
+                            email: res.data.body.email,
+                            firstName: res.data.body.firstName,
+                            lastName: res.data.body.lastName,
+                            id: res.data.body.id
+                        }
                     })
-                    navigate('/admin')
+                    let token = localStorage.getItem('token');
+                    if (res.status === "200") {
+
+                        navigate('/admin')
+                    }
                 }
                 // en cas d'erreur 401 
                 if (res.status === 401) {
                     navigate('/auth/login');
                     dispatch({
-                        type: "users/isLogged",
-                        payload: false
+                        type: "users/userInfo",
+                        payload: {
+                            isLogged: false,
+                            email: null,
+                            firstName: null,
+                            lastName: null,
+                            id: null
+                        }
                     })
 
                     console.log('Unauthorized')
@@ -87,6 +93,7 @@ const LoginPage = () => {
                     dispatch({
                         type: "users/userInfo",
                         payload: {
+                            isLogged: true,
                             email: res.data.body.email,
                             firstName: res.data.body.firstName,
                             lastName: res.data.body.lastName,
@@ -102,16 +109,28 @@ const LoginPage = () => {
     let token = localStorage.getItem('token');
     useEffect(() => {
         if (token) {
-            dispatch({
-                type: "users/isLogged",
-                payload: true
-            })
+            // dispatch({
+            //     type: "users/userInfo",
+            //     payload: {
+            //         isLogged: true,
+            //         email: userLogged.userInfo.email,
+            //         firstName: userLogged.userInfo.firstName,
+            //         lastName: userLogged.userInfo.lastName,
+            //         id: userLogged.userInfo.id
+            //     }
+            // })
             navigate('/admin')
 
         } else {
             dispatch({
-                type: "users/isLogged",
-                payload: false
+                type: "users/userInfo",
+                payload: {
+                    isLogged: false,
+                    email: null,
+                    firstName: null,
+                    lastName: null,
+                    id: null
+                }
             })
             navigate('/auth/login');
 
@@ -137,20 +156,11 @@ const LoginPage = () => {
                         <div className="input-remember">
                             <input type="checkbox" id="remember-me" /><label htmlFor="remember-me">Remember me</label >
                         </div>
-                        {/* PLACEHOLDER DUE TO STATIC SITE  */}
-                        <button className='sign-in-button'>Sign In
-                        </button>
-                        {/* <a href="./user.html" className="sign-in-button"></a> */}
-                        {/* SHOULD BE THE BUTTON BELOW  */}
-                        {/* <button className="sign-in-button">Sign In</button> */}
-
+                        <button className='sign-in-button'>Sign In</button>
                     </form>
                 </section>
             </main>
         </div>
-
-
-
     );
 };
 

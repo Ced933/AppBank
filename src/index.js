@@ -7,24 +7,15 @@ import { Provider } from 'react-redux';
 
 // redux 
 import store from './app/store';
-// redux persist 
-import { PersistGate } from 'redux-persist/integration/react';
-import { persistStore } from 'redux-persist';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
 
   <Provider store={store}>
-
-
     <BrowserRouter>
-
       <App />
-
     </BrowserRouter>
-
-
   </Provider>
 
 

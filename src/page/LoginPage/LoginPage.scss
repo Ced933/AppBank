@@ -1,7 +1,5 @@
 .main {
-
     border: 1px solid #00bc77;
-
 }
 
 .bg-dark {
@@ -12,13 +10,11 @@
     justify-content: center;
     align-items: center;
 
-
     .sign-in-content {
         box-sizing: border-box;
         background-color: white;
         width: 300px;
         margin: 0 auto;
-        // margin-top: 3rem;
         padding: 2rem;
 
         form {
@@ -49,9 +45,6 @@
                 background-color: #00bc77;
                 color: #fff;
             }
-
-
         }
-
     }
 }

@@ -1,4 +1,3 @@
-// import { useSelector } from "react-redux";
 import Axios from "./caller.service";
 
 let login = (userData) => {
