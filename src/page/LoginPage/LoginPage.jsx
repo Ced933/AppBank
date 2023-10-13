@@ -109,16 +109,7 @@ const LoginPage = () => {
     let token = localStorage.getItem('token');
     useEffect(() => {
         if (token) {
-            // dispatch({
-            //     type: "users/userInfo",
-            //     payload: {
-            //         isLogged: true,
-            //         email: userLogged.userInfo.email,
-            //         firstName: userLogged.userInfo.firstName,
-            //         lastName: userLogged.userInfo.lastName,
-            //         id: userLogged.userInfo.id
-            //     }
-            // })
+
             navigate('/admin')
 
         } else {
