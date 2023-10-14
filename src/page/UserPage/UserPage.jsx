@@ -10,13 +10,12 @@ const UserPage = () => {
     const arrayTransaction = [{ title: 'Argent Bank Checking (x8349)', amount: 2082.79, description: "Available Balance" },
     { title: 'Argent Bank Savings (x6712)', amount: 10928.42, description: "Available Balance" },
     { title: 'Argent Bank Credit Card (x8349)', amount: 184.30, description: "Current Balance" }]
-
+    // editToggle va nous permettre de faire apparaître les inputs pour pouvoir changer le nom et prenom 
     const [editToggle, setEditToggle] = useState(false);
-    // on va chercher les données dans le store grace a useSelector  
-    // const users = useSelector(getAllUser);
+    // dispatch va nous permettre d'envoyer des info dans le store 
     const dispatch = useDispatch();
-    // on recupère l'id 
     const navigate = useNavigate();
+    // on va chercher les données dans le store grace a useSelector  
     const userLogged = useSelector(state => state.users);
 
     const [userData, setUserData] = useState({
@@ -32,23 +31,15 @@ const UserPage = () => {
 
     }, [userData])
 
-
-
-
-    // on cherche le user avec l'id qui correspond a l'id de l'url 
-    // const userCurrent = users.find(user => user._id === id);
-    // const [editContent, setEditContent] = useState('');
     //    la fonction que je vais donner a mes input 
     const changeValue = (e) => {
         e.preventDefault();
-        console.log(e)
         //    on reprend les anciennes de userData avec ...userData
         // en suite on lui donne pour chaque name une nouvelle valeur du moins celle qu'on est en train d'ecrire ds l'input  
 
         setUserData({
             ...userData,
             [e.target.name]: e.target.value
-
         })
     }
 
@@ -56,7 +47,6 @@ const UserPage = () => {
     const handleEdit = (e) => {
         e.preventDefault();
         // Si les champs sont vide ou un des deux ou alors il y a juste des espace alors on envoie pas le formulaire  
-        console.log('bien reçu')
         // on fait dispatraitre le bouton apres avoir cliqué desssus 
         setEditToggle(!editToggle)
         // on envoie les modification dans le store dans userInfo on va modifier le firstname et le lastname grace a newfirstname et newlastname qui sont ce qu'on est en train de tapé actuellement dans l'iinpu
@@ -94,7 +84,7 @@ const UserPage = () => {
         })
     }
 
-    // si tu n'est pas connecté tu n'a pas acces a la page user 
+    // si tu n'est pas connecté tu n'a pas acces à la page user 
     if (!userLogged.userInfo.isLogged) {
         return <Navigate to='/auth/login' />
     }
@@ -106,9 +96,9 @@ const UserPage = () => {
                     editToggle ? (
                         <form onSubmit={(e) => handleEdit(e)}>
                             <h1>Welcome back<br /></h1>
-                            <input type="text" name='firstName' required defaultValue={userLogged.userInfo.firstName} onChange={changeValue} />
-                            <input type="text" name='lastName' required defaultValue={userLogged.userInfo.lastName} onChange={changeValue} />
-                            <input type="submit" value="valider" />
+                            <input type="text" className='input-firstname' name='firstName' required defaultValue={userLogged.userInfo.firstName} onChange={changeValue} />
+                            <input type="text" className='input-lastname' name='lastName' required defaultValue={userLogged.userInfo.lastName} onChange={changeValue} />
+                            <input type="submit" className='btn-valider' value="Valider" />
                         </form>
                     ) :
                         (

@@ -12,7 +12,7 @@ let logout = () => {
     localStorage.removeItem('token')
 }
 
-let getToken = () => localStorage.getItem('token');
+// let getToken = () => localStorage.getItem('token');
 
 
 
@@ -20,6 +20,4 @@ export const accountService = {
     login,
     saveToken,
     logout,
-    getToken
-
 }

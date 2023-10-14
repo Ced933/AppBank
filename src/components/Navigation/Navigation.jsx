@@ -22,10 +22,6 @@ const Navigation = () => {
             type: "users/tokenUser",
             payload: null
         })
-        // dispatch({
-        //     type: "users/isLogged",
-        //     payload: false
-        // })
         dispatch({
             type: "users/userInfo",
             payload: {
@@ -53,10 +49,10 @@ const Navigation = () => {
             </NavLink>
             <div>
                 {
-                    userLogged.userInfo.isLogged ? <div> <NavLink to={'/admin/user'}> <FontAwesomeIcon icon={faCircleUser} />{userLogged.userInfo.firstName}</NavLink> <NavLink onClick={(e) => { logOut(e) }} >
+                    userLogged.userInfo.isLogged ? <div> <NavLink to={'/admin/user'}> <FontAwesomeIcon icon={faCircleUser} />{userLogged.userInfo.firstName}</NavLink> <NavLink className='responsive' onClick={(e) => { logOut(e) }} >
                         <FontAwesomeIcon icon={faRightFromBracket} />
-                        Sign Out
-                    </NavLink> </div> : <NavLink to={"/auth/login"} >
+                        <span className='responsive-nav-item'>Sign Out</span>
+                    </NavLink></div> : <NavLink to={"/auth/login"} >
                         <FontAwesomeIcon icon={faCircleUser} />
                         Sign In
                     </NavLink>

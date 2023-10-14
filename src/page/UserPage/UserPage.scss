@@ -30,6 +30,11 @@
         margin-bottom: 2rem;
         border: 1px solid red;
 
+        @media (max-width: 425px) {
+            display: flex;
+            flex-direction: column;
+        }
+
         .account-content-wrapper {
             flex: 1;
 
@@ -57,7 +62,12 @@
             justify-content: end;
             align-items: center;
 
+            @media (max-width: 425px) {
+                margin-top: 20px;
+            }
+
             .transaction-button {
+
                 width: 50%;
                 padding: 8px;
                 font-size: 1.1rem;
@@ -65,7 +75,35 @@
                 border-color: #00bc77;
                 background-color: #00bc77;
                 color: #fff;
+
+                @media (max-width: 425px) {
+                    width: 100%;
+                }
             }
         }
     }
+}
+
+.input-firstname {
+    padding: 10px 20px;
+    width: 80px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.input-lastname {
+    padding: 10px 20px;
+    width: 80px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.btn-valider {
+    font-size: 16px;
+    font-weight: bold;
+    border-color: #00bc77;
+    background-color: #00bc77;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 5px;
 }
