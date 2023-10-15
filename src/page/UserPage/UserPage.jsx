@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './UserPage.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -14,7 +14,6 @@ const UserPage = () => {
     const [editToggle, setEditToggle] = useState(false);
     // dispatch va nous permettre d'envoyer des info dans le store 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     // on va chercher les données dans le store grace a useSelector  
     const userLogged = useSelector(state => state.users);
 
@@ -27,9 +26,9 @@ const UserPage = () => {
     // store 
     console.log(userLogged.userInfo.firstName)
 
-    useEffect(() => {
+    // useEffect(() => {
 
-    }, [userData])
+    // }, [userData])
 
     //    la fonction que je vais donner a mes input 
     const changeValue = (e) => {
@@ -68,7 +67,7 @@ const UserPage = () => {
                 console.log(response)
 
             }
-            ).catch(error => console.log(error), navigate('/auth/login'))
+            ).catch(error => console.log(error))
 
         dispatch({
 

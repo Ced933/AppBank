@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './LoginPage.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +15,6 @@ const LoginPage = () => {
         password: 'password123'
     })
 
-    const userLogged = useSelector(state => state.users)
 
     const onChangeValue = (e) => {
         setUserData({
@@ -50,11 +49,8 @@ const LoginPage = () => {
                             id: res.data.body.id
                         }
                     })
-                    let token = localStorage.getItem('token');
-                    if (res.status === "200") {
 
-                        navigate('/admin')
-                    }
+                    navigate('/admin')
                 }
                 // en cas d'erreur 401 
                 if (res.status === 401) {
@@ -105,28 +101,6 @@ const LoginPage = () => {
 
             }).catch(error => console.log(error), navigate('/auth/login'))
     }
-
-    let token = localStorage.getItem('token');
-    useEffect(() => {
-        if (token) {
-
-            navigate('/admin')
-
-        } else {
-            dispatch({
-                type: "users/userInfo",
-                payload: {
-                    isLogged: false,
-                    email: null,
-                    firstName: null,
-                    lastName: null,
-                    id: null
-                }
-            })
-            navigate('/auth/login');
-
-        }
-    }, [token])
 
     return (
 
